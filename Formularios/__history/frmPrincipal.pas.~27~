@@ -1,0 +1,104 @@
+unit frmPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxLookAndFeels,
+  cxLookAndFeelPainters, Vcl.Menus, dxSkinsCore, dxSkinsDefaultPainters,
+  Vcl.StdCtrls, cxButtons, Vcl.ExtCtrls, dxGDIPlusClasses, dxBarBuiltInMenu,
+  cxControls, Vcl.ComCtrls, cxContainer, cxEdit, cxTreeView, cxPC, cxStyles,
+  cxScheduler, cxSchedulerStorage, cxSchedulerCustomControls,
+  cxSchedulerCustomResourceView, cxSchedulerDayView, cxSchedulerAgendaView,
+  cxSchedulerDateNavigator, cxSchedulerHolidays, cxSchedulerTimeGridView,
+  cxSchedulerUtils, cxSchedulerWeekView, cxSchedulerYearView,
+  cxSchedulerGanttView, cxSchedulerRecurrence, cxSchedulerTreeListBrowser,
+  cxSchedulerRibbonStyleEventEditor, cxCustomData, cxFilter, cxData,
+  cxDataStorage, cxNavigator, dxDateRanges, Data.DB, cxDBData, cxGridLevel,
+  cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
+  cxGridDBTableView, cxGrid, frmgeraldm , cxLabel, dxCore, cxDateUtils,
+  cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, untFuncoes,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Vcl.OleCtrls, SHDocVw;
+
+  var
+  funcoes : TFuncoesGerais;
+type
+  TTelaPrincipalFrm = class(TForm)
+    pnlPrincipal: TPanel;
+    Panel2: TPanel;
+    btnFechar: TcxButton;
+    Image1: TImage;
+    Label1: TLabel;
+    pagPrincipal: TcxPageControl;
+    tabAgenda: TcxTabSheet;
+    tabEmissaoArt: TcxTabSheet;
+    tabRelatorios: TcxTabSheet;
+    Panel1: TPanel;
+    cxPageControl1: TcxPageControl;
+    tabCadAgenda: TcxTabSheet;
+    Panel4: TPanel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    cxDateEdit1: TcxDateEdit;
+    edtCliente: TEdit;
+    edtDocumento: TEdit;
+    edtEmissor: TEdit;
+    Panel3: TPanel;
+    btnAcessar: TcxButton;
+    grdCompromissos: TcxGrid;
+    grdCompromissosDBTableView1: TcxGridDBTableView;
+    grdCompromissosDBTableView1Column1: TcxGridDBColumn;
+    grdCompromissosDBTableView1Column2: TcxGridDBColumn;
+    grdCompromissosDBTableView1Column3: TcxGridDBColumn;
+    grdCompromissosDBTableView1Column4: TcxGridDBColumn;
+    grdCompromissosDBTableView1Column5: TcxGridDBColumn;
+    grdCompromissosLevel1: TcxGridLevel;
+    procedure btnFecharClick(Sender: TObject);
+    procedure btnAcessarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    procedure InsereRegistro;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  TelaPrincipalFrm: TTelaPrincipalFrm;
+
+implementation
+
+{$R *.dfm}
+
+procedure TTelaPrincipalFrm.btnAcessarClick(Sender: TObject);
+begin
+  with GeralDMfrm do
+  begin
+
+    qryAgenda.Append;
+
+  end;
+end;
+
+procedure TTelaPrincipalFrm.btnFecharClick(Sender: TObject);
+begin
+  close;
+end;
+
+procedure TTelaPrincipalFrm.FormCreate(Sender: TObject);
+begin
+  GeralDMfrm.qryAgenda.open;
+end;
+
+procedure TTelaPrincipalFrm.InsereRegistro;
+begin
+ //
+end;
+
+end.

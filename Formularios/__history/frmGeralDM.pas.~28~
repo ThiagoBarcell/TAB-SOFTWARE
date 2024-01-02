@@ -1,0 +1,73 @@
+unit frmGeralDM;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.FB,
+  FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait, FireDAC.Comp.Client, Data.DB,
+  FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
+  FireDAC.Comp.DataSet, FireDAC.Phys.IBBase, IniFiles, Vcl.Forms,untFuncoes;
+
+  var
+    funcoes : TFuncoesGerais;
+
+type
+  TGeralDMfrm = class(TDataModule)
+    DB_CONEXAO: TFDConnection;
+    qryUsuarioLogin: TFDQuery;
+    FDPhysFBDriverLink: TFDPhysFBDriverLink;
+    updUsuarioLogin: TFDUpdateSQL;
+    qryUsuarioLoginUSU_NOME: TStringField;
+    qryUsuarioLoginUSU_SENHA: TStringField;
+    qryUsuarioLoginUSU_CRIACAO: TDateField;
+    qryUsuarioLoginUSU_ALTERACAO: TDateField;
+    dtsUsuarioLogin: TDataSource;
+    trsTAB: TFDTransaction;
+    procedure qryUsuarioLoginNewRecord(DataSet: TDataSet);
+    procedure DataModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    sCaminhoEXE : String;
+    { Public declarations }
+  end;
+
+var
+  GeralDMfrm: TGeralDMfrm;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+procedure TGeralDMfrm.DataModuleCreate(Sender: TObject);
+var
+  ArquivoConfig : TIniFile;
+begin
+  funcoes := TFuncoesGerais.Create;
+  sCaminhoEXE := ExtractFilePath(Application.ExeName );
+
+
+  if not( FileExists( sCaminhoEXE + 'CONFIGURACOES.ini' ) )then
+  begin
+    ArquivoConfig := TIniFile.Create( sCaminhoEXE + 'CONFIGURACOES.ini' );
+    ArquivoConfig.WriteString( 'EMPRESA', 'CAMINHO_BANCO', sCaminhoEXE + 'BD_TAB\TAB_DB.FDB' );
+    ArquivoConfig.WriteString( 'EMPRESA', 'CAMINHO_BPL', sCaminhoEXE + 'BPL\fbclient.dll' );
+  end;
+  ArquivoConfig := TIniFile.Create( sCaminhoEXE + 'CONFIGURACOES.ini' );
+
+  funcoes.ConfiguraConexao( DB_CONEXAO, FDPhysFBDriverLink ,ArquivoConfig );
+
+  FreeAndNil( funcoes );
+end;
+
+procedure TGeralDMfrm.qryUsuarioLoginNewRecord(DataSet: TDataSet);
+begin
+  qryUsuarioLoginUSU_CRIACAO.AsDateTime := Now;
+  qryUsuarioLoginUSU_ALTERACAO.AsDateTime := Now;
+end;
+
+end.

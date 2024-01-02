@@ -1,0 +1,80 @@
+object GeralDMfrm: TGeralDMfrm
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Height = 362
+  Width = 458
+  object DB_CONEXAO: TFDConnection
+    Params.Strings = (
+      'Database=D:\TAB_Agenda\BD_TAB\TAB_DB.FDB'
+      'User_Name=SYSDBA'
+      'Password=masterkey'
+      'DriverID=FB')
+    Connected = True
+    Left = 40
+    Top = 16
+  end
+  object qryUsuarioLogin: TFDQuery
+    OnNewRecord = qryUsuarioLoginNewRecord
+    Connection = DB_CONEXAO
+    SQL.Strings = (
+      'SELECT * FROM INFO_USUARIOS')
+    Left = 152
+    Top = 16
+    object qryUsuarioLoginUSU_NOME: TStringField
+      FieldName = 'USU_NOME'
+      Origin = 'USU_NOME'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+      FixedChar = True
+    end
+    object qryUsuarioLoginUSU_SENHA: TStringField
+      FieldName = 'USU_SENHA'
+      Origin = 'USU_SENHA'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+      FixedChar = True
+      Size = 10
+    end
+    object qryUsuarioLoginUSU_CRIACAO: TDateField
+      FieldName = 'USU_CRIACAO'
+      Origin = 'USU_CRIACAO'
+    end
+    object qryUsuarioLoginUSU_ALTERACAO: TDateField
+      FieldName = 'USU_ALTERACAO'
+      Origin = 'USU_ALTERACAO'
+    end
+  end
+  object FDPhysFBDriverLink: TFDPhysFBDriverLink
+    VendorLib = 'D:\TAB_Agenda\BPL\fbclient.dll'
+    Left = 40
+    Top = 72
+  end
+  object updUsuarioLogin: TFDUpdateSQL
+    Connection = DB_CONEXAO
+    InsertSQL.Strings = (
+      'INSERT INTO INFO_USUARIOS'
+      '( USU_NOME, USU_SENHA, USU_CRIACAO, USU_ALTERACAO )'
+      
+        'VALUES ( :NEW_USU_NOME, :NEW_USU_SENHA, :NEW_USU_CRIACAO, :NEW_U' +
+        'SU_ALTERACAO )')
+    ModifySQL.Strings = (
+      'UPDATE INFO_USUARIOS'
+      'SET ( USU_NOME = :USU_NOME, '
+      '      USU_SENHA = :USU_SENHA , '
+      '      USU_CRIACAO = :USU_CRIACAO, '
+      '      USU_ALTERACAO = :USU_ALTERACAO )'
+      'WHERE USU_NOME = :OLD_USU_NOME')
+    Left = 152
+    Top = 72
+  end
+  object dtsUsuarioLogin: TDataSource
+    DataSet = qryUsuarioLogin
+    Left = 152
+    Top = 129
+  end
+  object trsTAB: TFDTransaction
+    Connection = DB_CONEXAO
+    Left = 39
+    Top = 127
+  end
+end

@@ -1,0 +1,16 @@
+program TabAgendaProj;
+
+uses
+  Vcl.Forms,
+  frmLogin in 'Formularios\frmLogin.pas' {LoginFrm},
+  frmGeralDM in 'Formularios\frmGeralDM.pas' {GeralDMfrm: TDataModule};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TLoginFrm, LoginFrm);
+  Application.CreateForm(TGeralDMfrm, GeralDMfrm);
+  Application.Run;
+end.

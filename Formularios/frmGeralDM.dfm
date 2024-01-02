@@ -1,0 +1,143 @@
+object GeralDMfrm: TGeralDMfrm
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Height = 211
+  Width = 321
+  object DB_CONEXAO: TFDConnection
+    Params.Strings = (
+      'Database=T:\TAB_Agenda\BD_TAB\TAB_DB.FDB'
+      'User_Name=SYSDBA'
+      'Password=masterkey'
+      'Port=localHost'
+      'DriverID=FB')
+    Connected = True
+    Left = 40
+    Top = 16
+  end
+  object qryUsuarioLogin: TFDQuery
+    OnNewRecord = qryUsuarioLoginNewRecord
+    Connection = DB_CONEXAO
+    SQL.Strings = (
+      'SELECT * FROM INFO_USUARIOS')
+    Left = 152
+    Top = 16
+    object qryUsuarioLoginUSU_NOME: TStringField
+      FieldName = 'USU_NOME'
+      Origin = 'USU_NOME'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+      FixedChar = True
+    end
+    object qryUsuarioLoginUSU_SENHA: TStringField
+      FieldName = 'USU_SENHA'
+      Origin = 'USU_SENHA'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+      FixedChar = True
+      Size = 10
+    end
+    object qryUsuarioLoginUSU_CRIACAO: TDateField
+      FieldName = 'USU_CRIACAO'
+      Origin = 'USU_CRIACAO'
+    end
+    object qryUsuarioLoginUSU_ALTERACAO: TDateField
+      FieldName = 'USU_ALTERACAO'
+      Origin = 'USU_ALTERACAO'
+    end
+  end
+  object FDPhysFBDriverLink: TFDPhysFBDriverLink
+    VendorLib = 'T:\TAB_Agenda\BPL\fbclient.dll'
+    Left = 40
+    Top = 72
+  end
+  object updUsuarioLogin: TFDUpdateSQL
+    Connection = DB_CONEXAO
+    InsertSQL.Strings = (
+      'INSERT INTO INFO_USUARIOS'
+      '( USU_NOME, USU_SENHA, USU_CRIACAO, USU_ALTERACAO )'
+      
+        'VALUES ( :NEW_USU_NOME, :NEW_USU_SENHA, :NEW_USU_CRIACAO, :NEW_U' +
+        'SU_ALTERACAO )')
+    ModifySQL.Strings = (
+      'UPDATE INFO_USUARIOS'
+      'SET ( USU_NOME = :USU_NOME, '
+      '      USU_SENHA = :USU_SENHA , '
+      '      USU_CRIACAO = :USU_CRIACAO, '
+      '      USU_ALTERACAO = :USU_ALTERACAO )'
+      'WHERE USU_NOME = :OLD_USU_NOME')
+    Left = 152
+    Top = 72
+  end
+  object dtsUsuarioLogin: TDataSource
+    DataSet = qryAgenda
+    Left = 152
+    Top = 129
+  end
+  object trsTAB: TFDTransaction
+    Connection = DB_CONEXAO
+    Left = 39
+    Top = 127
+  end
+  object qryAgenda: TFDQuery
+    OnNewRecord = qryUsuarioLoginNewRecord
+    Connection = DB_CONEXAO
+    SQL.Strings = (
+      'SELECT * FROM AGENDA')
+    Left = 240
+    Top = 16
+    object qryAgendaID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryAgendaEMISSOR: TStringField
+      FieldName = 'EMISSOR'
+      Origin = 'EMISSOR'
+      FixedChar = True
+      Size = 50
+    end
+    object qryAgendaDATA_CADASTRO: TSQLTimeStampField
+      FieldName = 'DATA_CADASTRO'
+      Origin = 'DATA_CADASTRO'
+    end
+    object qryAgendaCLIENTE: TStringField
+      FieldName = 'CLIENTE'
+      Origin = 'CLIENTE'
+      Size = 100
+    end
+    object qryAgendaDATA_ALTERACAO: TSQLTimeStampField
+      FieldName = 'DATA_ALTERACAO'
+      Origin = 'DATA_ALTERACAO'
+    end
+    object qryAgendaDOCUMENTO: TStringField
+      FieldName = 'DOCUMENTO'
+      Origin = 'DOCUMENTO'
+      Size = 50
+    end
+  end
+  object dtsAgenda: TDataSource
+    DataSet = qryAgenda
+    Left = 240
+    Top = 129
+  end
+  object updAgenda: TFDUpdateSQL
+    Connection = DB_CONEXAO
+    InsertSQL.Strings = (
+      'INSERT INTO AGENDA'
+      '( ID  , EMISSOR ,DATA_CADASTRO,CLIENTE ,  DATA_ALTERACAO  )'
+      
+        'VALUES ( :NEW_ID, :NEW_EMISSOR, :NEW_DATA_CADASTRO, :NEW_CLIENTE' +
+        ', :NEW_DATA_ALTERACAO )')
+    ModifySQL.Strings = (
+      'UPDATE AGENDA'
+      'SET ( ID = :ID, '
+      '      EMISSOR = :EMISSOR, '
+      '      DATA_CADASTRO = :DATA_CADASTRO, '
+      '      CLIENTE = :CLIENTE,'
+      '      DATA_ALTERACAO = :DATA_ALTERACAO )'
+      'WHERE ID = :OLD_ID')
+    Left = 241
+    Top = 72
+  end
+end
